@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.takeout.pojo.User" alias="user"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Business" alias="business"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Food" alias="food"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Order" alias="order"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Receive" alias="receive"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Admin" alias="admin"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Shopcar" alias="shopcar"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Carson" alias="carson"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Cargrandson" alias="cargrandson"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Page" alias="page"></typeAlias>
+        <typeAlias type="com.takeout.pojo.Comment" alias="comment"></typeAlias>
+
+
+    </typeAliases>
+    <mappers>
+        <mapper resource="com.takeout.mappers\userMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\foodMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\businessMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\orderMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\adminMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\bs_foodMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\receive_mMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\user_receiveMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\shopcarMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\confirmMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\pageMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\page_orderMapper.xml"></mapper>
+        <mapper resource="com.takeout.mappers\commentMapper.xml"></mapper>
+    </mappers>
+</configuration>

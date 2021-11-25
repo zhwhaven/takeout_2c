@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.bs_foodMapper">
+<!--//    添加商家和食品的联系
+    public int addBs_food(@Param("bs_id") int bs_id,@Param("food_id") int food_id);-->
+    <insert id="addBs_food" >
+     INSERT INTO `takeout`.`bs_food`(`bs_id`, `food_id`) VALUES (#{bs_id},#{food_id});
+
+    </insert>
+<!--  //    删除商家和食品的联系
+    public int deleteBs_food(@Param("bs_id") int bs_id,@Param("food_id") int food_id);  -->
+    <delete id="deleteBs_food" >
+        delete from bs_food where bs_id=#{bs_id} and food_id=#{food_id}
+    </delete>
+<!--    //    查找属于用户的所有食品的id
+    public List<Integer> selectAllFoodId(int bs_id);-->
+       <select id="selectAllFoodId" resultType="int" >
+           select food_id from bs_food where bs_id=#{bs_id}
+       </select>
+
+<!--    //    查找属于商家的所有食品的信息
+    public List<Food> selectAllFood(@Param("bs_id") int bs_id);-->
+    <select id="selectAllFood" resultType="food">
+        select * from t_food where id in( select food_id from bs_food where bs_id=#{bs_id})
+    </select>
+</mapper>

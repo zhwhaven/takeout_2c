@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.foodMapper">
+<!--//    添加食品,并返回id
+    public int addFood(Food food);-->
+    <insert id="addFood" parameterType="food" >
+        INSERT INTO `takeout`.`t_food`( `foodName`, `foodPrice`, `foodDiscount`, `foodPicture`, `foodCount`, `set_time`,
+        food_describe,food_style_code)
+        VALUES ( #{foodName}, #{foodPrice}, #{foodDiscount}, #{foodPicture}, #{foodCount}, #{set_time},#{food_describe},#{food_style_code});
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+<!--    //    删除食品
+    public int deleteFood(int id);-->
+    <delete id="deleteFood" parameterType="int" >
+        delete from t_food where id=#{id}
+
+    </delete>
+<!--    //    修改食品信息
+    public int updateFood(Food food);-->
+    <update id="updateFood" parameterType="food">
+        UPDATE `takeout`.`t_food` SET `foodName` = #{foodName}, `foodPrice` = #{foodPrice}, `foodDiscount` = #{foodDiscount}, `foodPicture` = #{foodPicture}, 
+        `foodCount` = #{foodCount}, `set_time` = #{set_time} ,food_describe=#{food_describe},
+          food_style_code=#{food_style_code} WHERE `id` = #{id}
+<!--     -->
+    </update>
+<!--//    查询食物
+    public Food selectFood(int id);-->
+    <select id="selectFood" parameterType="int" resultType="food">
+        select * from t_food where id=#{id}
+    </select>
+<!--    //   修改信息
+    public int updateFoodCount(@Param("foodid")int foodid,@Param("count")int count);-->
+    <update id="updateFoodCount">
+        UPDATE `takeout`.`t_food` SET  foodCount =foodCount-#{count}  WHERE `id` = #{foodid};
+    </update>
+
+<!--        <update id="updateFood" parameterType="food">
+        UPDATE `takeout`.`t_food` SET `foodName` = #{foodName}, `foodPrice` = #{foodPrice}, `foodDiscount` = #{foodDiscount}, `foodPicture` = #{foodPicture},
+        `foodCount` = #{foodCount}, `set_time` = #{set_time} ,food_describe=#{food_describe},
+          food_style_code=#{food_style_code} WHERE `id` = #{id}
+    </update>-->
+<!--    //修改名字，数量，价格
+    public int updateFoodBy(Food food);-->
+    <update id="updateFoodBy" parameterType="food">
+        UPDATE `takeout`.`t_food` SET `foodName` = #{foodName}, `foodPrice` = #{foodPrice},
+        `foodCount` = #{foodCount} WHERE `id` = #{id}
+    </update>
+</mapper>

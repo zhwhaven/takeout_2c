@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.pageMapper">
+
+<!--        <insert id="addAddress" parameterType="receive">
+        INSERT INTO `takeout`.`receive_m`( `name`, `phoneNumber`, `address`)
+        <selectKey resultType="int" order="AFTER"  keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+         VALUES ( #{name}, #{phoneNumber}, #{address});
+    </insert>-->
+<!--    //    添加数据并返回id
+    public int addPage(Page page);-->
+    <insert id="addPage" parameterType="page">
+        INSERT INTO t_page (bsid,receiveid,finishtime,status,userid)
+        <selectKey resultType="int" order="AFTER"  keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+        VALUES ( #{bsid}, #{receiveid}, #{finishtime},#{status},#{userid});
+    </insert>
+<!--    //   根据用户id查询page
+    public List<Page> selectPageByUserId(int userid);
+-->
+    <select id="selectPageByUserId" parameterType="int" resultType="page">
+        select * from t_page where userID=#{userid} order by id desc
+    </select>
+<!--    //    根据商家id查询page
+    public List<Page> selectPageByBusinessId(int businessId);-->
+    <select id="selectPageByBusinessId" parameterType="int" resultType="page">
+        select * from t_page where bsID=#{bsID} order by id desc
+    </select>
+<!--//修改订单状态
+    int updateStatus(int pageid, int status);-->
+    <update id="updateStatus">
+        update t_page set status=#{status} where id=#{pageid}
+    </update>
+</mapper>

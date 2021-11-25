@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.shopcarMapper">
+    <!--//    通过用户id 查询商人id
+        public List<Integer> selectBsIDByUid(int userID);-->
+    <select id="selectBsIDByUid" resultType="int" parameterType="int">
+        SELECT  distinct bsID FROM `shopcar`WHERE userID=#{userID}
+    </select>
+
+<!--    //    通过用户id 查询与用户有关的购物车中的商人信息
+    public List<Business> selectBusinessByUserid(int userID);-->
+    <select id="selectBusinessByUserid" parameterType="int" resultType="business">
+         select * from t_business where id in
+         (SELECT  distinct bsID FROM `shopcar`WHERE userID=#{userID} )
+    </select>
+
+    <!--    //    通过商人id 查询 foodid and count
+         public List<Cargrandson> selectFoodAndCount(@Param("bsID")
+         int bsid,@Param("userID")int userID);-->
+    <!--    <select id="selectFoodAndCount"  parameterType="int">-->
+<!--    select s.count ,f.id,f.foodName,f.foodPrice,f.foodDiscount,-->
+<!--    f.foodPicture,f.foodCount,f.set_time,f.food_describe,f.food_style_code-->
+<!--    from shopcar s,t_food f where s.bsID=2 and s.foodID=f.id-->
+    <!--    </select>-->
+    <resultMap id="selectFood" type="cargrandson">
+        <result property="count" column="count"></result>
+        <result column="sid"  property="shopcarId"></result>
+        <association property="food" javaType="food">
+            <id column="id" property="id"></id>
+            <id column="foodName" property="foodName"></id>
+            <id column="foodPrice" property="foodPrice"></id>
+            <id column="foodDiscount" property="foodDiscount"></id>
+            <id column="foodPicture" property="foodPicture"></id>
+            <id column="foodCount" property="foodCount"></id>
+            <id column="set_time" property="set_time"></id>
+            <id column="food_describe" property="food_describe"></id>
+            <id column="food_style_code" property="food_style_code"></id>
+        </association>
+    </resultMap>
+    <select id="selectFoodAndCount" resultMap="selectFood">
+         select s.id sid,s.count ,f.id,f.foodName,f.foodPrice,f.foodDiscount,
+         f.foodPicture,f.foodCount,f.set_time,f.food_describe,f.food_style_code
+         from shopcar s,t_food f where s.bsID=#{bsID} and s.foodID=f.id AND s.userID=#{userID}
+    </select>
+<!--    //   将食物添加到购物车
+    public int addShopcar(Shopcar shopcar);
+-->
+    <insert id="addShopcar" parameterType="shopcar">
+        INSERT INTO `takeout`.`shopcar`(foodID, `count`, `userID`, `bsID`)
+        VALUES ( #{foodID}, #{count}, #{userID}, #{bsID});
+
+    </insert>
+<!--  //    根据食品id和用户id删除购物车
+    public int deleteShopcar(int foodID,int userID);  -->
+    <delete id="deleteShopcar" >
+        delete from shopcar where foodID=#{foodID} and userID=#{userID}
+    </delete>
+<!--    //   通过userid 和 foodid 查询对象是否存在
+    public Shopcar selectShopcar(@Param("foodID") int foodID,@Param("userID") int userID);
+-->
+    <select id="selectShopcar" resultType="shopcar">
+        select * from shopcar where foodID=#{foodID} and userID=#{userID}
+    </select>
+<!--  //    修改count，通过userid 和 foodid ,修改值change
+    public  int updateCount(@Param("foodID") int foodID,@Param("userID") int userID,@Param("change") int change);  -->
+    <update id="updateCount" >
+      UPDATE `takeout`.`shopcar` SET  count=count+#{change}  WHERE foodID=#{foodID} and `userID` = #{userID}
+    </update>
+<!--    // 通过shopcarid删除购物车
+    public int deleteShopcarById(int id);-->
+    <delete id="deleteShopcarById" parameterType="int">
+        delete from shopcar where id=#{id}
+    </delete>
+<!--    //  根据shopcarid的集合
+    public List<Shopcar> selectAllShopcarByList(List<Integer> shopcaridlist);-->
+    <select id="selectAllShopcarByList" parameterType="list" resultType="shopcar">
+        select * from shopcar
+        <where>
+            <foreach collection="list" open="id in (" item="id" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+<!--    //    将上一个查到的shopcar集合的数据插入到t_confirm表中
+    public int  addShopcarToConfirm(List<Shopcar> shopcarList);-->
+    <insert id="addShopcarToConfirm" parameterType="list" >
+        INSERT INTO t_confirm
+         VALUES <foreach collection="list" item="shopcar" index="index" separator=",">
+         (null, #{shopcar.foodID},#{shopcar.count},#{shopcar.userID},#{shopcar.bsID},#{shopcar.id})
+    </foreach>
+    </insert>
+
+<!--    //    根据shopcarid的集合删除数据
+    public int deleteShopcarList(List<Integer> shopcaridlist);-->
+    <delete id="deleteShopcarList" parameterType="list">
+        delete from shopcar
+        <where>
+            <foreach collection="list" open="id in (" item="id" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+</mapper>

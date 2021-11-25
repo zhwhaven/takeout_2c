@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.confirmMapper">
+<!--//    清空表的数据
+    public int deleteAll();-->
+    <update id="deleteAll">
+    truncate table t_confirm
+    </update>
+<!--        //    通过用户id 查询与用户有关的确认表中的商人信息
+    public List<Business> selectBusinessByUserid(int userID);
+    //    通过商人id 和用户id 查询 foodid and count
+    public List<Cargrandson> selectFoodAndCount(@Param("bsID") int bsID, @Param("userID")int userID);-->
+    <select id="selectBusinessByUserid" parameterType="int" resultType="business">
+         select * from t_business where id in
+         (SELECT  distinct bsID FROM t_confirm WHERE userID=#{userID})
+    </select>
+   <resultMap id="selectFood" type="cargrandson">
+    <result property="count" column="count"></result>
+    <result column="sid"  property="shopcarId"></result>
+    <association property="food" javaType="food">
+        <id column="id" property="id"></id>
+        <id column="foodName" property="foodName"></id>
+        <id column="foodPrice" property="foodPrice"></id>
+        <id column="foodDiscount" property="foodDiscount"></id>
+        <id column="foodPicture" property="foodPicture"></id>
+        <id column="foodCount" property="foodCount"></id>
+        <id column="set_time" property="set_time"></id>
+        <id column="food_describe" property="food_describe"></id>
+        <id column="food_style_code" property="food_style_code"></id>
+    </association>
+</resultMap>
+<select id="selectFoodAndCount" resultMap="selectFood">
+         select s.shopcarID sid,s.count ,f.id,f.foodName,f.foodPrice,f.foodDiscount,
+         f.foodPicture,f.foodCount,f.set_time,f.food_describe,f.food_style_code
+         from t_confirm s,t_food f where s.bsID=#{bsID} and s.foodID=f.id AND s.userID=#{userID}
+    </select>
+</mapper>

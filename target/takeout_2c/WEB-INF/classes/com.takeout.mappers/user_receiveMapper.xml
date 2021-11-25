@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.user_receiveMapper">
+
+<!--  //    增加用户和地址的关联
+    public int addUserReceive(@Param("uid")int uid,@Param("rmid")int rmid);  -->
+    <insert id="addUserReceive" >
+        INSERT INTO `takeout`.`user_receive`(`uid`, `rmid`) VALUES ( #{uid}, #{rmid});
+    </insert>
+<!-- //    删除用户和地址的关联
+    public int deleteUserReceive(@Param("uid")int uid,@Param("rmid")int rmid);   -->
+    <delete id="deleteUserReceive" >
+        delete from user_receive where uid=#{uid} and rmid=#{rmid}
+    </delete>
+<!--    //    查看与用户有关的所有地址
+    public List<Integer> selectAllAddress(@Param("uid")int uid);-->
+    <select id="selectAllAddress" resultType="int">
+        select rmid from user_receive where uid=#{uid}
+    </select>
+<!--    /  //    查看与用户有关的所有地址
+   public List<Receive> selectAllAddressList(@Param("uid")int uid);  -->
+    <select id="selectAllAddressList" resultType="receive">
+        select * from receive_m where id in (select rmid from user_receive where uid=#{uid} )
+    </select>
+</mapper>

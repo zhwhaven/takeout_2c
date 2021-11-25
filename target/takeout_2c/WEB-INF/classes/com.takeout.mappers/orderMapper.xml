@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.orderMapper">
+<!--//    将数据提交到order
+    public int submitConfirm(List<Order> orderList);-->
+<!--    <insert id="submitConfirm" parameterType="list">-->
+<!--        INSERT INTO t_order VALUES-->
+<!--         <foreach collection="list" item="order" index="index" separator=",">-->
+<!--       (null,#{order.shopcarID},-->
+<!--       #{order.foodID},-->
+<!--       #{order.count},-->
+<!--       #{order.userID},-->
+<!--       #{order.bsID},-->
+<!--         #{order.receiveID},-->
+<!--         #{order.finish_time},-->
+<!--         #{order.status})-->
+<!--    </foreach>-->
+<!--    </insert>-->
+         <insert id="submitConfirm" parameterType="list">
+             insert into t_order values
+             <foreach collection="list" item="order" index="index" separator=",">
+                 (null,#{order.shopcarID},#{order.foodID},#{order.count},#{order.userID},#{order.bsID},
+                 #{order.receiveID},#{order.finish_time},#{order.status})
+             </foreach>
+         </insert>
+
+<!--    //    将数据添加到order
+    public int addOrder(Order order);-->
+    <insert id="addOrder" parameterType="order">
+            INSERT INTO t_order
+            <selectKey resultType="int" order="AFTER"  keyProperty="id">
+                select last_insert_id()
+            </selectKey>
+            VALUES (null,#{shopcarID},#{foodID},#{count},#{userID},#{bsID},#{receiveID},#{finish_time},#{status});
+    </insert>
+</mapper>

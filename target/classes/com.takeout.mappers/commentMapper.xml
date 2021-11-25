@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.commentMapper">
+    <!--    //插入评论并得到评论的编号-->
+    <!--    public int addComment(Comment comment);-->
+    <insert id="addComment" parameterType="comment">
+        INSERT INTO `takeout`.`comment`( `c_word`, `c_picture`, `c_score`, `c_time`,user_id)
+         VALUES (#{c_word}, #{c_picture}, #{c_score}, #{c_time},#{user.id});
+        <selectKey resultType="int" keyProperty="c_id" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <!--    //插入评论的编号和订单id-->
+    <!--    public int addCidAndPageid(@Param("c_id")int c_id,@Param("page_id")int page_id);-->
+
+    <insert id="addCidAndPageid" >
+        INSERT INTO `takeout`.`page_comment`(`c_id`,page_id)
+        VALUES (  #{c_id},#{page_id});
+    </insert>
+    <!--    //插入评论的编号和商品的编号-->
+    <!--    public int addCidAndFoodid(@Param("foodidlist") List<Integer> foodid,@Param("c_id") int c_id);-->
+<!--    <insert id="submitConfirm" parameterType="list">-->
+<!--        insert into t_order values-->
+<!--        <foreach collection="list" item="order" index="index" separator=",">-->
+<!--            (null,#{order.shopcarID},#{order.foodID},#{order.count},#{order.userID},#{order.bsID},-->
+<!--            #{order.receiveID},#{order.finish_time},#{order.status})-->
+<!--        </foreach>-->
+<!--    </insert>-->
+    <insert id="addCidAndFoodid" >
+INSERT INTO `takeout`.`food_comment`( `fd_id`, `cm_id`)
+        VALUES
+        <foreach collection="foodidlist" item="foodid" separator=",">
+             (#{foodid},#{c_id})
+        </foreach>
+    </insert>
+
+<!--         根据pageid删除评论
+    public int deleteByPageId(int pageid);-->
+    <delete id="deleteByPageId" parameterType="int">
+        delete from comment where id in (select c_id from page_comment where page_id=#{pageid})
+    </delete>
+    <!--
+        //根据商品id查看评论
+        public List<Comment> selectByFoodId(int foodid);-->
+    <resultMap id="selectComment" type="comment">
+        <result column="cid" property="c_id"></result>
+        <result column="c_word" property="c_word"></result>
+        <result column="c_picture" property="c_picture"></result>
+        <result column="c_score" property="c_score"></result>
+        <result column="c_time" property="c_time"></result>
+        <result column="uid" property="user.id"></result>
+        <result column="userName" property="user.userName"></result>
+        <result column="phoneNumber" property="user.phoneNumber"></result>
+    </resultMap>
+    <select id="selectByFoodId" parameterType="int" resultMap="selectComment">
+     SELECT c.id cid,c_word,c_picture,c_score,c_time,u.id,userName,phoneNumber
+     FROM `comment` c, t_user u where c.id in(select cm_id from food_comment where fd_id =#{pageid}) and c.user_id=u.id
+
+    </select>
+</mapper>

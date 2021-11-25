@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.page_orderMapper">
+<!--//    添加包和订单的联系
+    public int addPageAndOrder(@Param("pageid")int pageid,@Param("orderid")int orderid);-->
+    <insert id="addPageAndOrder">
+        insert into page_order values (null,#{pageid},#{orderid})
+    </insert>
+<!--    //    查找出与page有关的order集合
+    public List<Cargrandson> selectByPageId(int pageid);-->
+    <resultMap id="selectpage" type="cargrandson">
+     <result column="orderid" property="orderId"></result>
+        <result column="count" property="count"></result>
+        <association property="food" javaType="food">
+            <id column="foodid" property="id"></id>
+            <id column="foodName" property="foodName"></id>
+            <id column="foodPrice" property="foodPrice"></id>
+            <id column="foodDiscount" property="foodDiscount"></id>
+            <id column="foodPicture" property="foodPicture"></id>
+            <id column="foodCount" property="foodCount"></id>
+            <id column="set_time" property="set_time"></id>
+            <id column="food_describe" property="food_describe"></id>
+            <id column="food_style_code" property="food_style_code"></id>
+        </association>
+    </resultMap>
+    <select id="selectByPageId" parameterType="int" resultMap="selectpage">
+        select o.id orderid,o.shopcarid,o.count,f.id foodid,f.foodName,f.foodPicture,
+         f.foodPrice,f.foodDiscount,f.foodCount,f.set_time,f.food_describe,f.food_style_code
+         from t_order o , t_food f
+        where o.foodID=f.id  and o.id in(select orderid from page_order where pageid=#{pageid})
+    </select>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.businessMapper">
+    <!--    申请入驻-->
+    <insert id="addBusiness" parameterType="business">
+      INSERT INTO `takeout`.`t_business`( `bs_name`, `bs_phone`, `store_name`,
+      `license_picture`, `idCard_picture`,
+      `store_address`, `status`, `bs_account`, `bs_password`, `start_time`,
+       `over_time`, `store_picture`, `store_description`,`set_time`)
+       VALUES (#{bs_name}, #{bs_phone}, #{store_name}, #{license_picture},
+        #{idCard_picture}, #{store_address}, 0, #{bs_account}, #{bs_password},
+         #{start_time}, #{over_time}, #{store_picture}, #{store_description},#{set_time});
+
+   </insert>
+    <!--    修改用户信息-->
+    <update id="updateBusiness" parameterType="business">
+UPDATE `takeout`.`t_business` SET
+    bs_name = #{bs_name},
+        bs_phone= #{bs_phone},
+      store_name = #{store_name},
+     license_picture = #{license_picture}, idCard_picture= #{idCard_picture},
+     store_address= #{store_address} ,start_time=#{start_time},over_time=#{over_time},
+      store_picture=#{store_picture},store_description=#{store_description},
+      set_time=#{set_time} WHERE `id` = #{id};
+
+    </update>
+<!--    //    用户通过手机号码查看，申请是否通过-->
+<!--    public int selectStatusByPhone(String phone);-->
+    <select id="selectStatusByPhone" parameterType="string" resultType="int">
+        select status from t_business where bs_phone=#{phone}
+    </select>
+<!--    //    登录
+    public Business bsLogin(Business business);-->
+    <select id="bsLogin" parameterType="business" resultType="business">
+        select * from t_business where bs_account=#{bs_account} and bs_password=#{bs_password}
+         and status=1
+    </select>
+<!--    //       通过地点得到店铺
+    public Business selectStoreByAddress(String address);-->
+    <select id="selectStoreByAddress" resultType="business" parameterType="string">
+        select * from t_business where status=1 and store_address like %${address}%
+    </select>
+<!--    //    通过id查所有信息
+    public Business selectById(int id);-->
+    <select id="selectById" parameterType="int" resultType="business">
+        select * from t_business where id=#{id}
+    </select>
+<!--    //通过时间，地点和营业状态 查询店铺
+    List<Business> selectBusinessByAddressAndTime(long nowTime, String address);-->
+    <select id="selectBusinessByAddressAndTime" resultType="business">
+        select * from t_business where status=1 and start_time&lt;= #{nowTime} and
+        over_time &gt;= #{nowTime} and store_address like '%${address}%'
+    </select>
+<!--    //查询所有商家信息
+    List<Business> selectAll();-->
+    <select id="selectAll" resultType="business">
+        select * from t_business
+    </select>
+<!--    //批准
+    int updateStatus(int id);-->
+    <update id="updateStatus" parameterType="int">
+        update t_business set status=1 where status=0 and id=#{id}
+    </update>
+<!--    //    删除商家
+    int deleteBusiness(int id);-->
+    <update id="deleteBusiness" parameterType="int">
+        update t_business set status=2 where id=#{id}
+    </update>
+<!--       //    用户通过手机号码查看，申请是否通过,返回用户
+    public Business selectStatus(String phone);-->
+    <select id="selectStatus" parameterType="string" resultType="business">
+        select * from t_business where bs_phone=#{phone}
+    </select>
+<!--    //通过key和address得到
+    List<Business> selectBusinessByKey
+    (@Param("address") String address,@Param("keyword") String keyword);-->
+    <select id="selectBusinessByKey" resultType="business">
+          select *from t_business where status=1 and store_address like '%${address}%' and id in ( select DISTINCT bs_id from bs_food where food_id  in(select id from t_food where foodName like '%${keyword}%'or store_name like '%${keyword}%'))
+    </select>
+</mapper>

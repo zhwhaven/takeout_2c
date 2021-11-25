@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.takeout.dao.receive_mMapper">
+<!--//    添加地址
+   public int addAddress(Receive receive);
+-->
+    <insert id="addAddress" parameterType="receive">
+        INSERT INTO `takeout`.`receive_m`( `name`, `phoneNumber`, `address`)
+        <selectKey resultType="int" order="AFTER"  keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+         VALUES ( #{name}, #{phoneNumber}, #{address});
+    </insert>
+<!--     //   删除地址
+    public int deleteAddress(int id);  -->
+    <delete id="deleteAddress" parameterType="int">
+        delete from receive_m where id=#{id}
+    </delete>
+<!--    //    修改地址
+    public int updateAddress(Receive receive);-->
+    <update id="updateAddress" parameterType="receive">
+        UPDATE `takeout`.`receive_m` SET
+        `name` = #{name}, `phoneNumber` = #{phoneNumber}, `address` = #{address} WHERE `id` = #{id};
+
+    </update>
+<!--   //    查询地址
+    public Receive selectAddress(int id); -->
+    <select id="selectAddress" parameterType="int" resultType="receive">
+        select * from receive_m where id=#{id}
+    </select>
+</mapper>

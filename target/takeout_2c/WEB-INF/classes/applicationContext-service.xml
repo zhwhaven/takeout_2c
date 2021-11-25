@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx   http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop   http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+<!--    为bean自动注入-->
+  <context:component-scan base-package="com.takeout.service"></context:component-scan>
+<!--    tx事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <tx:advice id="transactionInterceptor" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" isolation="REPEATABLE_READ" read-only="false" timeout="-1" propagation="REQUIRED"/>
+            <tx:method name="update*" isolation="REPEATABLE_READ" read-only="false" timeout="-1" propagation="REQUIRED"/>
+            <tx:method name="delete*" isolation="REPEATABLE_READ" read-only="false" timeout="-1" propagation="REQUIRED"/>
+            <tx:method name="selete*" isolation="REPEATABLE_READ" read-only="true" timeout="-1" propagation="REQUIRED"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+<!--    aop织入事务-->
+    <aop:config>
+        <aop:pointcut id="mypointcut" expression="execution(* com.takeout.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="transactionInterceptor" pointcut-ref="mypointcut"></aop:advisor>
+    </aop:config>
+</beans>
