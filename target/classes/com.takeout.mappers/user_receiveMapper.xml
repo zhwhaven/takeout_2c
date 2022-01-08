@@ -22,4 +22,17 @@
     <select id="selectAllAddressList" resultType="receive">
         select * from receive_m where id in (select rmid from user_receive where uid=#{uid} )
     </select>
+
+
+<!--    <select id="selectAllAddressList1" resultMap="allAddress">-->
+<!--        select * from  t_user where id=#{id}-->
+<!--    </select>-->
+<!--    <resultMap id="allAddress" type="user">-->
+<!--        <id property="id" column="id"></id>-->
+
+<!--        <result column="userName" property="userName"></result>-->
+<!--        <result column="password" property="password"></result>-->
+<!--        <result column="phoneNumber" property="phoneNumber"></result>-->
+<!--        <collection property="receiveList" select="" column=""-->
+<!--    </resultMap>-->
 </mapper>

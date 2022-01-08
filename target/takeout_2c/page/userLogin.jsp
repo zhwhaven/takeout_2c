@@ -54,6 +54,12 @@
                     <input type="password" name="password" id="password" lay-verify="required|password" lay-reqtext="密码不能为空!" placeholder="请输入密码" autocomplete="off" class="layui-input">
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证码</label>
+                <div  class="layui-input-inline">
+                    <input name="code" type="text"> <img src="KaptchaServlet" alt="">
+                </div>
+            </div>
             <div><p>${msg}</p></div>
             <div class="layui-form-item">
                 <div class="layui-input-block" style="margin-right: 100px">

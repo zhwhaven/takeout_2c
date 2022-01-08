@@ -6,6 +6,7 @@ import com.takeout.service.businessService;
 import com.takeout.service.shopService;
 import com.takeout.util.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 @Controller
 @RequestMapping("/business")
 public class businessController {

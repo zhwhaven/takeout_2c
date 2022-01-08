@@ -24,10 +24,17 @@ public class orderController {
     @RequestMapping("/submitConfirm")
     public String submitConfirm(int receiveid, int[] shopcaridList, int[] foodidList,
                               int[] foodcountList, int[] bsidlist, int[] setlist,
-                              int[] bdlist, HttpSession session){
-        User userlogin = (User) session.getAttribute("userlogin");
-        int i = orderService.submitConfirm(userlogin.getId(), receiveid, shopcaridList, foodidList, foodcountList, bsidlist, setlist,bdlist);
-        return "redirect:/order/intoOrder";
+                              int[] bdlist,String uuid, HttpSession session){
+        String uuid1 = (String) session.getAttribute("uuid");
+
+        if(uuid1!=null&&uuid.equals(uuid1)){
+            session.removeAttribute("uuid");
+            User userlogin = (User) session.getAttribute("userlogin");
+            int i = orderService.submitConfirm(userlogin.getId(), receiveid, shopcaridList, foodidList, foodcountList, bsidlist, setlist,bdlist);
+            return "redirect:/order/intoOrder";
+        }
+        else
+            return "notreply";
     }
 //    用户查看订单
     @RequestMapping("/intoOrder")

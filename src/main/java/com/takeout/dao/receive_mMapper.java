@@ -12,4 +12,5 @@ public interface receive_mMapper {
     public int updateAddress(Receive receive);
 //    查询地址
     public Receive selectAddress(int id);
+//   查询用户所在地址
 }

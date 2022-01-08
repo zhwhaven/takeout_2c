@@ -3,13 +3,16 @@
 <mapper namespace="com.takeout.dao.foodMapper">
 <!--//    添加食品,并返回id
     public int addFood(Food food);-->
-    <insert id="addFood" parameterType="food" >
+<!--    获取id的方式一-->
+    <insert id="addFood" parameterType="food" useGeneratedKeys="true" keyProperty="id">
+
         INSERT INTO `takeout`.`t_food`( `foodName`, `foodPrice`, `foodDiscount`, `foodPicture`, `foodCount`, `set_time`,
         food_describe,food_style_code)
         VALUES ( #{foodName}, #{foodPrice}, #{foodDiscount}, #{foodPicture}, #{foodCount}, #{set_time},#{food_describe},#{food_style_code});
-        <selectKey resultType="int" keyProperty="id" order="AFTER">
-            select LAST_INSERT_ID()
-        </selectKey>
+--          获取id的方式二
+<!--        <selectKey resultType="int" keyProperty="id" order="AFTER">-->
+<!--            select LAST_INSERT_ID()-->
+<!--        </selectKey>-->
     </insert>
 <!--    //    删除食品
     public int deleteFood(int id);-->

@@ -14,4 +14,6 @@ public interface user_receiveMapper {
     public List<Integer> selectAllAddress(@Param("uid")int uid);
 //  //    查看与用户有关的所有地址
    public List<Receive> selectAllAddressList(@Param("uid")int uid);
+    //  //    查看与用户有关的所有地址
+    public List<Receive> selectAllAddressList1(int uid);
 }

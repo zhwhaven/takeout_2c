@@ -28,8 +28,21 @@ import java.util.List;
 public class userController {
     @Autowired
     private com.takeout.service.userService userService;
+    @RequestMapping("/code")
+    public void code(String code,HttpSession session){
+       String session_key = (String) session.getAttribute("KAPTCHA_SESSION_KEY");
+       if(code.equals(session_key)){
+           System.out.println("kkkk");
+       }
+    }
     @RequestMapping("/login")
-    public ModelAndView login(User user, HttpSession session,ModelAndView modelAndView){
+    public ModelAndView login(User user, HttpSession session,ModelAndView modelAndView,String code){
+        String session_key = (String) session.getAttribute("KAPTCHA_SESSION_KEY");
+        if(code.equals(session_key)){
+            System.out.println("kkkk");
+        }
+
+
         System.out.println(user);
        User user1= userService.login(user);
         System.out.println(user1);

@@ -112,29 +112,7 @@
                 success:function(data){
                     alert("添加成功")
                     location.href="${pageContext.request.contextPath}/user/intoAddress"
-                    //
-                    // if(data==1){
-                    //     alert(添加成功)
-                    //     table=document.getElementById("table");
-                    //     var tr = document.createElement("tr");
-                    //     var td1 = document.createElement("td");
-                    //     var td2 = document.createElement("td");
-                    //     var td3 = document.createElement("td");
-                    //     var td4 = document.createElement("td");
-                    //     var a=document.createElement("a");
-                    //     a.innerText
-                    //     a.setAttribute("href","javascript:;")
-                    //     td1.innerText = userName;
-                    //     td2.innerText = userAddress;
-                    //     td3.innerText = userPhone;
-                    //     td4.setAttribute("class","")
-                    //     td4.append(a);
-                    //     tr.appendChild(td1);
-                    //     tr.appendChild(td2);
-                    //     tr.appendChild(td3);
-                    //     tr.appendChild(td4);
-                    //     table.appendChild(tr);
-                    // }
+
                 },
                 contentType:'application/json;charset=utf-8'
             });

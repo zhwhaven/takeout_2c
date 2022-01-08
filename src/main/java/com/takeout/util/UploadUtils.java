@@ -1,9 +1,6 @@
 package com.takeout.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,15 +73,13 @@ public class UploadUtils {
 
 //    存放文件
 public static void inputStreamToFile(InputStream ins, File file) {
-    try {
-        OutputStream os = new FileOutputStream(file);
+    try(       BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(file));
+               BufferedInputStream input=new BufferedInputStream(ins);) {
         int bytesRead = 0;
         byte[] buffer = new byte[8192];
-        while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+        while ((bytesRead = input.read(buffer)) != -1) {
             os.write(buffer, 0, bytesRead);
         }
-        os.close();
-        ins.close();
     } catch (Exception e) {
         e.printStackTrace();
     }

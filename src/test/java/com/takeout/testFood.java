@@ -16,15 +16,16 @@ public class testFood {
     @Test
     public void t1(){
         Food food=new Food();
-        food.setFoodName("鸡腿");
-        food.setFoodPicture("鸡腿图片");
+        food.setFoodName("鸡腿huhuhuhu");
+        food.setFoodPicture("鸡腿jijiji图片");
         food.setFoodDiscount(0.9);
         food.setFoodPrice(7);
         food.setFoodCount(20);
         food.setSet_time(20);
-        food.setFood_describe("好吃大鸡腿");
+        food.setFood_describe("好吃大鸡腿uim");
         food.setFood_style_code("0002");
          int i=mapper.addFood(food);
+        System.out.println("i"+"---->"+i);
         int id = food.getId();
         System.out.println(id);
     }

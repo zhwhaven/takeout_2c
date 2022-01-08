@@ -1,6 +1,9 @@
 package com.takeout.pojo;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
+    private static final long serialVersionUID = -2170266978063152920L;
     private int c_id;
     private String c_word;
     private String c_picture;

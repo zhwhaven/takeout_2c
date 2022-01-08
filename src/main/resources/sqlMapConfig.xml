@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
     <typeAliases>
-        <typeAlias type="com.takeout.pojo.User" alias="user"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Business" alias="business"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Food" alias="food"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Order" alias="order"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Receive" alias="receive"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Admin" alias="admin"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Shopcar" alias="shopcar"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Carson" alias="carson"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Cargrandson" alias="cargrandson"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Page" alias="page"></typeAlias>
-        <typeAlias type="com.takeout.pojo.Comment" alias="comment"></typeAlias>
-
+<!--        <typeAlias type="com.takeout.pojo.User" alias="user"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Business" alias="business"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Food" alias="food"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Order" alias="order"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Receive" alias="receive"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Admin" alias="admin"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Shopcar" alias="shopcar"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Carson" alias="carson"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Cargrandson" alias="cargrandson"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Page" alias="page"></typeAlias>-->
+<!--        <typeAlias type="com.takeout.pojo.Comment" alias="comment"></typeAlias>-->
+        <package name="com.takeout.pojo"/>
 
     </typeAliases>
     <mappers>

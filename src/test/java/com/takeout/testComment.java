@@ -51,8 +51,10 @@ public class testComment {
   @Test
   public void t4(){
     int id=10;
-    List<Comment> comments = mapper.selectByFoodId(15);
+    List<Comment> comments = mapper.selectByFoodId(23);
+    List<Comment> comment1 = mapper.selectByFoodId(23);
     System.out.println(comments);
+    System.out.println(comment1);
   }
 
 }

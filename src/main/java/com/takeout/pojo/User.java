@@ -1,8 +1,9 @@
 package com.takeout.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     private int id;
     private String userName;
     private String account;

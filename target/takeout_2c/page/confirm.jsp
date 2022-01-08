@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.UUID" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2021/7/2 0002
@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>结算</title>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css">
     <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
     <style>
@@ -70,6 +71,7 @@
     <div style="height: 34px;line-height: 34px">填写并核对订单信息</div>
 
     <div style="width: 100%;height: auto;border: 1px solid #efefef">
+
         <div style="margin-top: 10px;margin-left: 10px"><span><b>收货人信息</b></span></div>
         <div style="margin-top: 20px;margin-left: 20px;float: left" class="layui-input-inline">
             <select id="receive" name="msg" style="width: 900px">
@@ -88,6 +90,14 @@
             <span style="color: #ED1C0F">(免配送费)</span></div>
         <hr style="width: 100%;margin-top: 30px">
 
+
+        <%--        添加uuid，防止重复提交--%>
+        <%
+            String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+            HttpSession session1 = request.getSession();
+            session1.setAttribute("uuid",uuid);
+        %>
+        <div id="uuid" style="display: none">${sessionScope.uuid}</div>
         <span style="margin-left: 10px"><b>商品清单</b></span>
         <c:forEach items="${carson}" var="carson">
         <div style="width: 96%;margin: 10px auto;border: 1px solid #E4E4E4">
@@ -163,6 +173,8 @@
 </body>
 <script>
     function submitorder() {
+                  //获得uuid
+                  var uuid=$("#uuid").text();
                   //获得地址id
                   var innerText = document.getElementById("receive").value;
 
@@ -236,7 +248,7 @@
                           }
                           location.href="${pageContext.request.contextPath}/order/submitConfirm?receiveid="+receiveid+
                                   "&shopcaridList="+shopcarlist+"&foodidList="+foodlist+"&foodcountList="+foodcountlist+
-                              "&bsidlist="+bsidlist+"&setlist="+setlist+"&bdlist="+bdlist;
+                              "&bsidlist="+bsidlist+"&setlist="+setlist+"&bdlist="+bdlist+"&uuid="+uuid;
                           // alert("收获地址id"+receiveid)
                           // alert("购物车"+shopcarlist)
                           // alert("食物"+foodlist)

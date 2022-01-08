@@ -33,9 +33,10 @@
     </bean>
 <!--文件上传-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"></property>
         <property name="maxUploadSize" value="25000000"></property>
-        <property name="maxUploadSizePerFile" value="5000000"></property>
+        <property name="maxUploadSizePerFile" value="1024100"></property>
         <property name="maxInMemorySize" value="4096000"></property>
-         <property name="defaultEncoding" value="utf-8"></property>
+
     </bean>
 </beans>
